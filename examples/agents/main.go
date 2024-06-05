@@ -6,6 +6,7 @@ import (
 	"github.com/ankit-arora/langchaingo/tools/serpapi"
 	"github.com/deployment-io/team-ai/agents"
 	"github.com/deployment-io/team-ai/agents/agent_enums"
+	"github.com/deployment-io/team-ai/options/agent_options"
 	"github.com/joho/godotenv"
 	"log"
 )
@@ -24,13 +25,13 @@ Reply with only one company with the reason why you think it's most innovative. 
 		search,
 		tools.Calculator{},
 	}
-	a, err := agents.Get(agent_enums.OpenAIFunctionAgent, agents.WithBackstory(backstory),
-		agents.WithMaxIterations(10), agents.WithRole("AI researcher"),
-		agents.WithGoal("Find the best AI company. Get its valuation and divide it by 5"), agents.WithTools(agentTools))
+	a, err := agents.Get(agent_enums.OpenAIFunctionAgent, agent_options.WithBackstory(backstory),
+		agent_options.WithMaxIterations(10), agent_options.WithRole("AI researcher"),
+		agent_options.WithTools(agentTools))
 	if err != nil {
 		panic(err)
 	}
-	out, err := a.Do()
+	out, err := a.Do("Find the best AI company. Get its valuation and divide it by 5")
 	if err != nil {
 		log.Fatal(err)
 	}

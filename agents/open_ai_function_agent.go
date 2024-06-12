@@ -34,7 +34,7 @@ func NewOpenAIFunctionAgent(opts ...agent_options.Creation) (*OpenAIFunctionAgen
 	return o, nil
 }
 
-func (o *OpenAIFunctionAgent) Do(input string, opts ...agent_options.Execution) (string, error) {
+func (o *OpenAIFunctionAgent) Do(ctx context.Context, input string, opts ...agent_options.Execution) (string, error) {
 	options := &agent_options.ExecutionOption{}
 	for _, opt := range opts {
 		opt(options)
@@ -64,6 +64,6 @@ func (o *OpenAIFunctionAgent) Do(input string, opts ...agent_options.Execution) 
 	}
 
 	executor := agents.NewExecutor(a, executionOptions...)
-	answer, err := chains.Run(context.Background(), executor, input)
+	answer, err := chains.Run(ctx, executor, input)
 	return answer, err
 }

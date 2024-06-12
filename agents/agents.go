@@ -1,6 +1,7 @@
 package agents
 
 import (
+	"context"
 	"fmt"
 	"github.com/ankit-arora/langchaingo/tools"
 	"github.com/deployment-io/team-ai/agents/agent_enums"
@@ -18,7 +19,7 @@ type BaseAgent struct {
 //TODO Do will have a way to pass team execution options
 
 type AgentInterface interface {
-	Do(input string, opts ...agent_options.Execution) (string, error)
+	Do(ctx context.Context, input string, opts ...agent_options.Execution) (string, error)
 }
 
 func Get(agentType agent_enums.AgentType, opts ...agent_options.Creation) (AgentInterface, error) {

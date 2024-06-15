@@ -1,7 +1,5 @@
 package agent_options
 
-import "github.com/ankit-arora/langchaingo/tools"
-
 type Creation func(*CreationOption)
 
 type CreationOption struct {
@@ -9,7 +7,6 @@ type CreationOption struct {
 	Backstory     string
 	Llm           string
 	MaxIterations int
-	Tools         []tools.Tool
 }
 
 func WithRole(role string) Creation {
@@ -33,12 +30,6 @@ func WithLLM(llm string) Creation {
 func WithMaxIterations(iterations int) Creation {
 	return func(o *CreationOption) {
 		o.MaxIterations = iterations
-	}
-}
-
-func WithTools(tools []tools.Tool) Creation {
-	return func(o *CreationOption) {
-		o.Tools = tools
 	}
 }
 

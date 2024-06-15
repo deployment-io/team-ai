@@ -3,7 +3,6 @@ package agents
 import (
 	"context"
 	"fmt"
-	"github.com/ankit-arora/langchaingo/tools"
 	"github.com/deployment-io/team-ai/agents/agent_enums"
 	"github.com/deployment-io/team-ai/options/agent_options"
 )
@@ -12,7 +11,6 @@ type BaseAgent struct {
 	Role          string
 	Backstory     string
 	LLM           string
-	Tools         []tools.Tool
 	MaxIterations int
 }
 

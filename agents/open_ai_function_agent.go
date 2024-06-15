@@ -24,7 +24,6 @@ func NewOpenAIFunctionAgent(opts ...agent_options.Creation) (*OpenAIFunctionAgen
 	o.Backstory = options.Backstory
 	o.LLM = options.Llm
 	o.Role = options.Role
-	o.Tools = options.Tools
 	o.MaxIterations = options.MaxIterations
 	var err error
 	o.llm, err = openai.New(openai.WithModel(o.LLM))
@@ -51,7 +50,7 @@ func (o *OpenAIFunctionAgent) Do(ctx context.Context, input string, opts ...agen
 	}
 
 	a := agents.NewOpenAIFunctionsAgent(o.llm,
-		o.Tools,
+		options.Tools,
 		agentOptions...,
 	)
 

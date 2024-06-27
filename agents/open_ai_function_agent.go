@@ -27,7 +27,7 @@ func NewOpenAIFunctionAgent(opts ...agent_options.Creation) (*OpenAIFunctionAgen
 	o.MaxIterations = options.MaxIterations
 	var err error
 	o.llm, err = openai.New(openai.WithModel(o.LLM), openai.WithAPIType(openai.APITypeAzure),
-		openai.WithAPIVersion("2024-02-01"))
+		openai.WithAPIVersion("2024-02-01"), openai.WithHTTPClient(options.HttpClient))
 	if err != nil {
 		return nil, err
 	}

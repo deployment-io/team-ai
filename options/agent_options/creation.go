@@ -1,5 +1,7 @@
 package agent_options
 
+import "github.com/deployment-io/team-ai/rpc"
+
 type Creation func(*CreationOption)
 
 type CreationOption struct {
@@ -7,6 +9,7 @@ type CreationOption struct {
 	Backstory     string
 	Llm           string
 	MaxIterations int
+	HttpClient    rpc.HTTPClient
 }
 
 func WithRole(role string) Creation {
@@ -30,6 +33,12 @@ func WithLLM(llm string) Creation {
 func WithMaxIterations(iterations int) Creation {
 	return func(o *CreationOption) {
 		o.MaxIterations = iterations
+	}
+}
+
+func WithHttpClient(httpClient rpc.HTTPClient) Creation {
+	return func(o *CreationOption) {
+		o.HttpClient = httpClient
 	}
 }
 

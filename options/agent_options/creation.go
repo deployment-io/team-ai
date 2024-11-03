@@ -9,7 +9,7 @@ type CreationOption struct {
 	Backstory     string
 	Llm           string
 	MaxIterations int
-	HttpClient    rpc.HTTPClient
+	HttpClient    rpc.HTTPClientInterface
 }
 
 func WithRole(role string) Creation {
@@ -36,7 +36,7 @@ func WithMaxIterations(iterations int) Creation {
 	}
 }
 
-func WithHttpClient(httpClient rpc.HTTPClient) Creation {
+func WithHttpClient(httpClient rpc.HTTPClientInterface) Creation {
 	return func(o *CreationOption) {
 		o.HttpClient = httpClient
 	}

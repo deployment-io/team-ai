@@ -1,4 +1,4 @@
-package agents
+package llm_implementations
 
 import (
 	"context"

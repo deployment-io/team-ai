@@ -42,12 +42,21 @@ func (o *OpenAIFunctionAgent) Do(ctx context.Context, input string, opts ...agen
 	var agentOptions = []agents.Option{
 		agents.NewOpenAIOption().WithSystemMessage(o.Backstory),
 		agents.NewOpenAIOption().WithToolChoice(options.ToolChoice),
+		agents.NewOpenAIOption().WithJSONMode(options.JSONMode),
 		agents.WithCallbacksHandler(options.Callback),
 	}
-	if options.Memory != nil {
-		agentOptions = append(agentOptions, agents.NewOpenAIOption().WithExtraMessages([]prompts.MessageFormatter{
-			prompts.MessagesPlaceholder{VariableName: "chat_history"},
-		}))
+	if options.ExtraMessages != nil {
+		extraMessages := options.ExtraMessages
+		if options.Memory != nil {
+			extraMessages = append(extraMessages, prompts.MessagesPlaceholder{VariableName: "chat_history"})
+		}
+		agentOptions = append(agentOptions, agents.NewOpenAIOption().WithExtraMessages(extraMessages))
+	} else {
+		if options.Memory != nil {
+			agentOptions = append(agentOptions, agents.NewOpenAIOption().WithExtraMessages([]prompts.MessageFormatter{
+				prompts.MessagesPlaceholder{VariableName: "chat_history"},
+			}))
+		}
 	}
 
 	a := agents.NewOpenAIFunctionsAgent(o.llm,

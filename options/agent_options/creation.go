@@ -1,6 +1,8 @@
 package agent_options
 
-import "github.com/deployment-io/team-ai/rpc"
+import (
+	"github.com/deployment-io/team-ai/rpc"
+)
 
 type Creation func(*CreationOption)
 

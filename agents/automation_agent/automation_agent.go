@@ -1,6 +1,7 @@
 package automation_agent
 
 import (
+	"github.com/ankit-arora/langchaingo/callbacks"
 	"github.com/deployment-io/team-ai/enums/llm_implementation_enums"
 	"github.com/deployment-io/team-ai/enums/rpcs"
 	"github.com/deployment-io/team-ai/llm_implementations"
@@ -63,7 +64,7 @@ Additional Features:
 
 const maxIterations = 10
 
-func New(llm, extraContext string) (llm_implementations.AgentInterface, error) {
+func New(llm, extraContext string, callbackHandler callbacks.Handler) (llm_implementations.AgentInterface, error) {
 	automationBackstory := os.Getenv("AUTOMATION_AGENT_BACKSTORY")
 	if len(automationBackstory) == 0 {
 		automationBackstory = backstory
@@ -77,5 +78,6 @@ func New(llm, extraContext string) (llm_implementations.AgentInterface, error) {
 		agent_options.WithMaxIterations(maxIterations),
 		agent_options.WithLLM(llm),
 		agent_options.WithHttpClient(httpClient),
+		agent_options.WithCallbackHandler(callbackHandler),
 	)
 }

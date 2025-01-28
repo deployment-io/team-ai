@@ -1,17 +1,25 @@
 package agent_options
 
 import (
+	"github.com/ankit-arora/langchaingo/callbacks"
 	"github.com/deployment-io/team-ai/rpc"
 )
 
 type Creation func(*CreationOption)
 
 type CreationOption struct {
-	Role          string
-	Backstory     string
-	Llm           string
-	MaxIterations int
-	HttpClient    rpc.HTTPClientInterface
+	Role            string
+	Backstory       string
+	Llm             string
+	MaxIterations   int
+	HttpClient      rpc.HTTPClientInterface
+	CallbackHandler callbacks.Handler
+}
+
+func WithCallbackHandler(callbackHandler callbacks.Handler) Creation {
+	return func(o *CreationOption) {
+		o.CallbackHandler = callbackHandler
+	}
 }
 
 func WithRole(role string) Creation {

@@ -23,7 +23,7 @@ const InsertedAssistantMessageIDContextKey = "assistantMessageID"
 const DeploymentIDContextKey = "deploymentID"
 const InputMessageIDKey = "inputMessageID"
 
-func GetAgentToAssist(agentType agent_enums.AgentType, llm, extraContext string) (llm_implementations.AgentInterface, error) {
+func GetAgentToAssist(agentType agent_enums.AgentType, llm, extraContext string, callbackHandler callbacks.Handler) (llm_implementations.AgentInterface, error) {
 	switch agentType {
 	case agent_enums.DevOpsUserAgent:
 		devopsAgent, err := devops_user_agent.New(llm, extraContext)
@@ -38,7 +38,7 @@ func GetAgentToAssist(agentType agent_enums.AgentType, llm, extraContext string)
 		}
 		return serviceAgent, nil
 	case agent_enums.AutomationAgent:
-		automationAgent, err := automation_agent.New(llm, extraContext)
+		automationAgent, err := automation_agent.New(llm, extraContext, callbackHandler)
 		if err != nil {
 			return nil, err
 		}

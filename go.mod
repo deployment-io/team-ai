@@ -2,7 +2,7 @@ module github.com/deployment-io/team-ai
 
 go 1.22.2
 
-require github.com/ankit-arora/langchaingo v0.0.0-20240528113028-57cb104a2826
+require github.com/ankit-arora/langchaingo v0.0.0-20250127131401-1bbb9b54c14a
 
 require (
 	github.com/Masterminds/goutils v1.1.1 // indirect

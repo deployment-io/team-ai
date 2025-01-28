@@ -6,6 +6,7 @@ import (
 	"github.com/ankit-arora/langchaingo/callbacks"
 	"github.com/ankit-arora/langchaingo/schema"
 	"github.com/ankit-arora/langchaingo/tools"
+	"github.com/deployment-io/team-ai/agents/automation_agent"
 	"github.com/deployment-io/team-ai/agents/devops_user_agent"
 	"github.com/deployment-io/team-ai/agents/service_user_agent"
 	"github.com/deployment-io/team-ai/enums/agent_enums"
@@ -20,8 +21,9 @@ const TokenContextKey = "token"
 const OrganizationIDContextKey = "organizationID"
 const InsertedAssistantMessageIDContextKey = "assistantMessageID"
 const DeploymentIDContextKey = "deploymentID"
+const InputMessageIDKey = "inputMessageID"
 
-func GetAgentToAssist(agentType agent_enums.AgentType, llm, extraContext string) (llm_implementations.AgentInterface, error) {
+func GetAgentToAssist(agentType agent_enums.AgentType, llm, extraContext string, callbackHandler callbacks.Handler) (llm_implementations.AgentInterface, error) {
 	switch agentType {
 	case agent_enums.DevOpsUserAgent:
 		devopsAgent, err := devops_user_agent.New(llm, extraContext)
@@ -35,6 +37,12 @@ func GetAgentToAssist(agentType agent_enums.AgentType, llm, extraContext string)
 			return nil, err
 		}
 		return serviceAgent, nil
+	case agent_enums.AutomationAgent:
+		automationAgent, err := automation_agent.New(llm, extraContext, callbackHandler)
+		if err != nil {
+			return nil, err
+		}
+		return automationAgent, nil
 	default:
 		return nil, fmt.Errorf("agent type %s not supported", agentType)
 	}

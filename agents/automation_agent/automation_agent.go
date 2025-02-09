@@ -72,7 +72,7 @@ func New(llm, extraContext string, callbackHandler callbacks.Handler) (llm_imple
 	if len(extraContext) > 0 {
 		automationBackstory += "\n\n" + extraContext
 	}
-	httpClient := rpc.NewHTTPClient(rpcs.AzureOpenAI, false, true, 2)
+	httpClient := rpc.NewHTTPClient(rpcs.AzureOpenAI, true, true, 2)
 	return llm_implementations.Get(llm_implementation_enums.OpenAIFunctionAgent, agent_options.WithBackstory(automationBackstory),
 		agent_options.WithRole(role),
 		agent_options.WithMaxIterations(maxIterations),

@@ -57,11 +57,6 @@ type HTTPClient struct {
 
 func (h *HTTPClient) Do(req *http.Request) (*http.Response, error) {
 	//can add before and after functions here
-	if h.useSlowHttp {
-		return slowHTTP.Do(req)
-	}
-	var response *http.Response
-	var err error
 	if h.rpcType == rpcs.AzureOpenAI {
 		//since azure ai langchaingo directly calls Do we'll need to handle retry etc here
 		if req.Method == http.MethodPost {
@@ -69,11 +64,12 @@ func (h *HTTPClient) Do(req *http.Request) (*http.Response, error) {
 			if err != nil {
 				return nil, err
 			}
-			//fmt.Println("request body:", string(reqBodyBytes))
-			response, err = h.HttpPostDo(reqBodyBytes, req)
+			return h.HttpPostDo(reqBodyBytes, req)
 		}
-	} else {
-		response, err = fastHTTP.Do(req)
 	}
-	return response, err
+	if h.useSlowHttp {
+		return slowHTTP.Do(req)
+	} else {
+		return fastHTTP.Do(req)
+	}
 }

@@ -25,7 +25,7 @@ func New(llm, extraContext string) (llm_implementations.AgentInterface, error) {
 	if len(extraContext) > 0 {
 		devopsBackstory += "\n\n" + extraContext
 	}
-	httpClient := rpc.NewHTTPClient(rpcs.AzureOpenAI, false, true, 5)
+	httpClient := rpc.NewHTTPClient(rpcs.AzureOpenAI, true, true, 5)
 	return llm_implementations.Get(llm_implementation_enums.OpenAIFunctionAgent, agent_options.WithBackstory(devopsBackstory),
 		agent_options.WithRole(role),
 		agent_options.WithMaxIterations(maxIterations),

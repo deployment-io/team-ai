@@ -64,7 +64,7 @@ Additional Features:
 
 const maxIterations = 10
 
-func New(llm, extraContext string, callbackHandler callbacks.Handler) (llm_implementations.AgentInterface, error) {
+func New(llm, llmApiVersion, extraContext string, callbackHandler callbacks.Handler) (llm_implementations.AgentInterface, error) {
 	automationBackstory := os.Getenv("AUTOMATION_AGENT_BACKSTORY")
 	if len(automationBackstory) == 0 {
 		automationBackstory = backstory
@@ -77,6 +77,7 @@ func New(llm, extraContext string, callbackHandler callbacks.Handler) (llm_imple
 		agent_options.WithRole(role),
 		agent_options.WithMaxIterations(maxIterations),
 		agent_options.WithLLM(llm),
+		agent_options.WithApiVersion(llmApiVersion),
 		agent_options.WithHttpClient(httpClient),
 		agent_options.WithCallbackHandler(callbackHandler),
 	)

@@ -11,6 +11,7 @@ type BaseAgent struct {
 	Role          string
 	Backstory     string
 	LLM           string
+	LLMApiVersion string
 	MaxIterations int
 }
 

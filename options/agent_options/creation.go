@@ -11,6 +11,7 @@ type CreationOption struct {
 	Role            string
 	Backstory       string
 	Llm             string
+	ApiVersion      string
 	MaxIterations   int
 	HttpClient      rpc.HTTPClientInterface
 	CallbackHandler callbacks.Handler
@@ -37,6 +38,12 @@ func WithBackstory(backstory string) Creation {
 func WithLLM(llm string) Creation {
 	return func(o *CreationOption) {
 		o.Llm = llm
+	}
+}
+
+func WithApiVersion(apiVersion string) Creation {
+	return func(o *CreationOption) {
+		o.ApiVersion = apiVersion
 	}
 }
 

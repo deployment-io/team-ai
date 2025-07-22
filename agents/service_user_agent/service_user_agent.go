@@ -17,7 +17,7 @@ Send all responses in Markdown format.`
 
 const maxIterations = 10
 
-func New(llm, extraContext string) (llm_implementations.AgentInterface, error) {
+func New(llm, llmApiVersion, extraContext string) (llm_implementations.AgentInterface, error) {
 	serviceBackstory := os.Getenv("SERVICE_AGENT_BACKSTORY")
 	if len(serviceBackstory) == 0 {
 		serviceBackstory = backstory
@@ -30,5 +30,6 @@ func New(llm, extraContext string) (llm_implementations.AgentInterface, error) {
 		agent_options.WithRole(role),
 		agent_options.WithMaxIterations(maxIterations),
 		agent_options.WithLLM(llm),
+		agent_options.WithApiVersion(llmApiVersion),
 		agent_options.WithHttpClient(httpClient))
 }

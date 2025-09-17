@@ -3,16 +3,20 @@ package agents
 import (
 	"context"
 	"fmt"
+	"log"
+
 	"github.com/ankit-arora/langchaingo/callbacks"
 	"github.com/ankit-arora/langchaingo/schema"
 	"github.com/ankit-arora/langchaingo/tools"
+	"github.com/deployment-io/team-ai/agents/agent_runner"
 	"github.com/deployment-io/team-ai/agents/automation_agent"
 	"github.com/deployment-io/team-ai/agents/devops_user_agent"
+	"github.com/deployment-io/team-ai/agents/generic_agent"
+	"github.com/deployment-io/team-ai/agents/router_agent"
 	"github.com/deployment-io/team-ai/agents/service_user_agent"
 	"github.com/deployment-io/team-ai/enums/agent_enums"
 	"github.com/deployment-io/team-ai/llm_implementations"
 	"github.com/deployment-io/team-ai/options/agent_options"
-	"log"
 )
 
 const GroupIDContextKey = "groupID"
@@ -43,6 +47,24 @@ func GetAgentToAssist(agentType agent_enums.AgentType, llm, llmApiVersion, extra
 			return nil, err
 		}
 		return automationAgent, nil
+	case agent_enums.RouterAgent:
+		routerAgent, err := router_agent.New(llm, llmApiVersion, extraContext, callbackHandler)
+		if err != nil {
+			return nil, err
+		}
+		return routerAgent, nil
+	case agent_enums.GenericAgent:
+		genericAgent, err := generic_agent.New(llm, llmApiVersion, extraContext, callbackHandler)
+		if err != nil {
+			return nil, err
+		}
+		return genericAgent, nil
+	case agent_enums.AgentRunner:
+		agentRunner, err := agent_runner.New(llm, llmApiVersion, extraContext, callbackHandler)
+		if err != nil {
+			return nil, err
+		}
+		return agentRunner, nil
 	default:
 		return nil, fmt.Errorf("agent type %s not supported", agentType)
 	}
